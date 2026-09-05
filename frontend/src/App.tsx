@@ -8,7 +8,7 @@ import { Incidents } from "./pages/Incidents";
 import { ModelPerformance } from "./pages/ModelPerformance";
 import { Razorpay } from "./pages/Razorpay";
 import { APIDocs } from "./pages/APIDocs";
-import { api } from "./services/api";
+import { api, API_BASE_URL } from "./services/api";
 import { usePolling } from "./hooks/usePolling";
 import {
   HealthResponse,
@@ -147,7 +147,7 @@ export function App() {
             <div className="flex items-center gap-2">
               <AlertCircle className="w-4 h-4 text-rose-400" />
               <span>
-                <b>⚠ BACKEND UNAVAILABLE</b> — Connecting to <code>http://127.0.0.1:8000</code>... Retrying automatically.
+                <b>⚠ BACKEND UNAVAILABLE</b> — Connecting to <code>{API_BASE_URL}</code>... Retrying automatically.
               </span>
             </div>
             <button

@@ -1,8 +1,9 @@
 import React from "react";
 import { Code2, ExternalLink, CheckCircle2, Copy } from "lucide-react";
+import { API_BASE_URL } from "../services/api";
 
 export const APIDocs: React.FC = () => {
-  const swaggerUrl = "http://127.0.0.1:8000/docs";
+  const swaggerUrl = `${API_BASE_URL}/docs`;
 
   const endpoints = [
     {
