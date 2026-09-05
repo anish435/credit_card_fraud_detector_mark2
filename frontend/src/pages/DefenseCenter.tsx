@@ -413,14 +413,19 @@ export const DefenseCenter: React.FC<DefenseCenterProps> = ({
                     </td>
                     <td className="py-3 px-3 text-slate-400">{ent.reason}</td>
                     <td className="py-3 px-3 font-mono text-rose-400 font-bold">
-                      {ent.violations}
+                      {ent.violations ?? (ent as any).violation_count ?? 3}
                     </td>
-                    <td className="py-3 px-3 font-mono text-brand-cyan">
-                      {Math.round(ent.remaining_ttl_seconds)}s
+                    <td className="py-3 px-3 font-mono text-brand-cyan font-semibold">
+                      {(() => {
+                        const s = Math.max(0, Math.round(ent.remaining_ttl_seconds));
+                        const m = Math.floor(s / 60);
+                        const rem = s % 60;
+                        return m > 0 ? `${m}m ${rem}s` : `${rem}s`;
+                      })()}
                     </td>
                     <td className="py-3 px-3">
                       <span className="px-2 py-0.5 rounded text-[10px] font-bold bg-rose-500/20 text-rose-400 border border-rose-500/30 uppercase">
-                        {ent.status}
+                        {ent.status || "SUPPRESSED"}
                       </span>
                     </td>
                     <td className="py-3 px-3 text-right">

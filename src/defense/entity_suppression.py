@@ -1,4 +1,4 @@
-﻿"""
+"""
 Entity Suppression & Temporary Blacklist Engine
 =================================================
 Maintains thread-safe temporary suppression/blacklisting for entities
@@ -97,6 +97,8 @@ class EntitySuppressionStore:
                     "ttl_seconds": ttl,
                     "reason": f"Repeated violations ({len(history)} {violation_type} events within {int(self.violation_window/60)}m)",
                     "violation_count": len(history),
+                    "violations": len(history),
+                    "status": "SUPPRESSED",
                 }
                 self._save()
                 return True
@@ -150,6 +152,8 @@ class EntitySuppressionStore:
                 if entry["expires_at"] > current_ts:
                     item = entry.copy()
                     item["remaining_ttl_seconds"] = max(0.0, round(entry["expires_at"] - current_ts, 1))
+                    item.setdefault("violations", item.get("violation_count", 3))
+                    item.setdefault("status", "SUPPRESSED")
                     active.append(item)
                 else:
                     expired_keys.append(eid)
@@ -162,8 +166,8 @@ class EntitySuppressionStore:
         return sorted(active, key=lambda x: x["remaining_ttl_seconds"], reverse=True)
 
     def clear(self):
-        """Clear store for tests."""
+        """Clear store for tests and demo recovery."""
         with self._lock:
-            self._violations = {}
-            self._suppressions = {}
+            self._suppressions.clear()
+            self._violations.clear()
             self._save()

@@ -966,11 +966,17 @@ def simulate_fraud_spike():
 
     import random
     scored_burst = []
+    repeated_attacker = "carder_bot_syndicate@darknet.org"
     for i in range(5):
         burst_payload = base_block.copy()
         burst_payload["TransactionAmt"] = round(float(burst_payload.get("TransactionAmt", 85.0)) + random.uniform(10.0, 50.0), 2)
-        burst_payload["P_emaildomain"] = f"carder_bot_{i}@throwaway.xyz"
-        burst_payload["card1"] = 14076 + i
+        # First 3 transactions target the same attacker to trigger temporary entity suppression (3+ violations threshold)
+        if i < 3:
+            burst_payload["P_emaildomain"] = repeated_attacker
+            burst_payload["card1"] = 14076
+        else:
+            burst_payload["P_emaildomain"] = f"carder_node_{i}@throwaway.xyz"
+            burst_payload["card1"] = 14076 + i
 
         t0 = time.perf_counter()
         prob, risk_tier, X, defense_res = _score_raw(burst_payload, entity_id=burst_payload["P_emaildomain"])
@@ -1014,8 +1020,9 @@ def simulate_gateway_recovery():
     Simulate traffic returning to normal healthy baseline.
     Transitions circuit breaker from DEFENSE_ACTIVE through COOLDOWN to NORMAL.
     """
-    # 1. Clear spike detector sliding window
+    # 1. Clear spike detector sliding window and temporary demo suppressions
     defense_system.spike_detector.clear()
+    defense_system.suppression_store.clear()
 
     # 2. Record 6 clean low-risk transactions to establish sustained healthy traffic
     import random
