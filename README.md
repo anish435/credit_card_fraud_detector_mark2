@@ -1,6 +1,30 @@
-# Credit Card Fraud Detection Engine — Dual-Layer Evaluation Architecture
+<div align="center">
 
-An end-to-end, enterprise-grade machine learning system designed to detect credit card transaction fraud on the [IEEE-CIS Fraud Detection](https://www.kaggle.com/competitions/ieee-fraud-detection) benchmark (~590K transactions, 27.6:1 class imbalance). 
+# 🛡️ Jericho — AI Payment Risk Manager
+### Real-Time Payment Fraud Detection, Adaptive Circuit Breaker & MLOps Console
+**Razorpay AI Builder Internship / Buildathon 2026 — Track 02 (AI Risk Manager)**
+
+[![Live Web Dashboard](https://img.shields.io/badge/🚀_Live_Web_Dashboard-jerichoguard.vercel.app-00E5FF?style=for-the-badge&logo=vercel&logoColor=black)](https://jerichoguard.vercel.app)
+[![Live FastAPI Engine](https://img.shields.io/badge/⚡_Live_FastAPI_Backend-riskguard--api.onrender.com-10B981?style=for-the-badge&logo=render&logoColor=white)](https://riskguard-api.onrender.com/health)
+[![Interactive API Docs](https://img.shields.io/badge/📖_Swagger_API_Docs-FastAPI-8B5CF6?style=for-the-badge&logo=fastapi&logoColor=white)](https://riskguard-api.onrender.com/docs)
+[![GitHub Repository](https://img.shields.io/badge/GitHub-credit__card__fraud__detector__mark2-181717?style=for-the-badge&logo=github&logoColor=white)](https://github.com/anish435/credit_card_fraud_detector_mark2)
+[![Lead Engineer](https://img.shields.io/badge/Author-Aneesh_(@anish435)-0F172A?style=for-the-badge&logo=github&logoColor=white)](https://github.com/anish435)
+
+</div>
+
+---
+
+### 🌐 Live Production Deployments
+
+| Component | Platform | Live URL | Status | Description |
+| :--- | :--- | :--- | :---: | :--- |
+| **🖥️ Risk Operations Console** | **Vercel** | [**jerichoguard.vercel.app**](https://jerichoguard.vercel.app) | `🟢 ONLINE` | Dark MLOps console with live scoring, SHAP drawer, and defense controls. |
+| **⚡ Inference & Defense Microservice** | **Render** | [**riskguard-api.onrender.com**](https://riskguard-api.onrender.com/health) | `🟢 ONLINE` | High-throughput FastAPI engine running calibrated LightGBM + XGBoost. |
+| **📖 Interactive API Docs** | **FastAPI** | [**riskguard-api.onrender.com/docs**](https://riskguard-api.onrender.com/docs) | `🟢 READY` | Interactive Swagger UI for scoring endpoints and telemetry streams. |
+
+---
+
+An end-to-end, enterprise-grade machine learning system designed to detect credit card transaction fraud on the [IEEE-CIS Fraud Detection](https://www.kaggle.com/competitions/ieee-fraud-detection) benchmark (~590K transactions, 27.6:1 class imbalance).
 
 This repository evaluates fraud detection through two distinct, complementary layers:
 1. **Statistical Model Performance Layer**: PR-AUC, ROC-AUC, Isotonic Brier score probability calibration, and walk-forward validation.
@@ -305,6 +329,6 @@ To receive live webhooks directly from Razorpay's cloud in Test Mode:
 
 ## 👨‍💻 Author & Sole Contributor
 
-* **Author**: [Anish](https://github.com/anish435) — 100% solo development, architecture, ML modeling, and presentation engineering.
+* **Author**: [Aneesh (@anish435)](https://github.com/anish435) — 100% solo development, architecture, ML modeling, and presentation engineering.
 * **Dataset**: [IEEE-CIS Fraud Detection](https://www.kaggle.com/competitions/ieee-fraud-detection) benchmark by IEEE Computational Intelligence Society and Vesta Corporation.
 
