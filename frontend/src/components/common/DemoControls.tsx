@@ -37,7 +37,7 @@ export const DemoControls: React.FC<DemoControlsProps> = ({
     try {
       const res = await api.simulateSpike();
       onNotification?.({
-        text: `🚨 High-Risk Surge! ${res.transactions_scored} suspicious transactions detected. Circuit Breaker engaged: ${res.defense_status.circuit_breaker.state}`,
+        text: `🚨 Risk Spike Detected: ${res.transactions_scored} high-risk transactions scored. Circuit Breaker engaged: ${res.defense_status.circuit_breaker.state}`,
         type: "warning",
       });
       onActionComplete();
@@ -97,11 +97,11 @@ export const DemoControls: React.FC<DemoControlsProps> = ({
         </div>
         <div>
           <h4 className="text-xs font-bold text-white tracking-wide uppercase flex items-center gap-2">
-            Interactive Presentation Controls
-            <span className="text-[10px] font-medium text-slate-400 lowercase">(real pipeline execution)</span>
+            LIVE DEMO CONTROLS
+            <span className="text-[10px] font-medium text-brand-cyan lowercase font-mono">(real backend execution)</span>
           </h4>
           <p className="text-[11px] text-slate-400">
-            Drive live transaction scoring, fraud surge detection, circuit breaker defense, and auto-recovery.
+            Drive real scoring, adaptive defense, and recovery.
           </p>
         </div>
       </div>

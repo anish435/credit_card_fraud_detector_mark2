@@ -224,17 +224,19 @@ export const Razorpay: React.FC<RazorpayProps> = ({ onNotification }) => {
                   </tr>
                 ) : (
                   logs.map((log) => {
-                    const prob = (log.fraud_probability * 100).toFixed(1);
+                    const prob = ((log.fraud_probability ?? 0) * 100).toFixed(1);
+                    const amt = Number(log.amount ?? log.amount_inr ?? 0);
+                    const decision = log.decision || log.risk_tier || "ALLOW";
                     return (
                       <tr key={log.payment_id} className="hover:bg-dark-800/40">
                         <td className="py-2.5 px-3 font-mono font-medium text-slate-200">
                           {log.payment_id}
                         </td>
                         <td className="py-2.5 px-3 font-mono text-slate-400 truncate max-w-[160px]" title={log.customer_identifier}>
-                          {log.customer_identifier}
+                          {log.customer_identifier || "anonymous"}
                         </td>
                         <td className="py-2.5 px-3 font-semibold text-white">
-                          ₹{log.amount.toLocaleString(undefined, { minimumFractionDigits: 2 })}
+                          ₹{amt.toLocaleString(undefined, { minimumFractionDigits: 2 })}
                         </td>
                         <td className="py-2.5 px-3 font-mono font-bold">
                           {prob}%
@@ -242,18 +244,18 @@ export const Razorpay: React.FC<RazorpayProps> = ({ onNotification }) => {
                         <td className="py-2.5 px-3">
                           <span
                             className={`inline-flex items-center px-2 py-0.5 rounded text-[10px] font-bold uppercase ${
-                              log.decision === "ALLOW"
+                              decision === "ALLOW"
                                 ? "bg-emerald-500/20 text-emerald-400 border border-emerald-500/30"
-                                : log.decision === "CHALLENGE"
+                                : decision === "CHALLENGE"
                                 ? "bg-amber-500/20 text-amber-400 border border-amber-500/30"
                                 : "bg-rose-500/20 text-rose-400 border border-rose-500/30"
                             }`}
                           >
-                            {log.decision}
+                            {decision}
                           </span>
                         </td>
                         <td className="py-2.5 px-3 font-mono text-slate-400">
-                          {log.latency_ms?.toFixed(1) || 18.5} ms
+                          {log.latency_ms ? log.latency_ms.toFixed(1) : "18.5"} ms
                         </td>
                       </tr>
                     );

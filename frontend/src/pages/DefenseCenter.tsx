@@ -141,6 +141,75 @@ export const DefenseCenter: React.FC<DefenseCenterProps> = ({
         </div>
       </div>
 
+      {/* Automatic Defense Actions */}
+      <div className="bg-dark-850 rounded-xl p-4 border border-dark-700/80 shadow-md">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+          <div className="flex items-center gap-2">
+            <span className="px-2 py-0.5 rounded text-[10px] font-bold bg-brand-cyan/15 text-brand-cyan border border-brand-cyan/30 uppercase tracking-wider">
+              GATEWAY DEFENSE
+            </span>
+            <h4 className="text-xs font-bold text-white uppercase tracking-wider">
+              Automatic Defense Actions
+            </h4>
+          </div>
+          <span className="text-[11px] text-slate-400">
+            Automated, reversible defense-only operational policies (no automatic financial cancellations)
+          </span>
+        </div>
+
+        <div className="grid grid-cols-2 sm:grid-cols-5 gap-2.5 mt-3 pt-3 border-t border-dark-700/60 text-xs">
+          <div className="flex items-center gap-2 p-2 rounded-lg bg-dark-900/60 border border-dark-700/50">
+            <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400 shrink-0" />
+            <div>
+              <span className="font-semibold text-slate-200 block text-[11px]">Adaptive Routing</span>
+              <span className="text-[10px] text-slate-400 block font-mono">
+                {isDefenseActive ? "TIGHTENED" : "STANDARD"}
+              </span>
+            </div>
+          </div>
+
+          <div className="flex items-center gap-2 p-2 rounded-lg bg-dark-900/60 border border-dark-700/50">
+            <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400 shrink-0" />
+            <div>
+              <span className="font-semibold text-slate-200 block text-[11px]">Circuit Breaker</span>
+              <span className="text-[10px] text-slate-400 block font-mono">
+                {circuit_breaker.state}
+              </span>
+            </div>
+          </div>
+
+          <div className="flex items-center gap-2 p-2 rounded-lg bg-dark-900/60 border border-dark-700/50">
+            <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400 shrink-0" />
+            <div>
+              <span className="font-semibold text-slate-200 block text-[11px]">Entity Suppression</span>
+              <span className="text-[10px] text-slate-400 block font-mono">
+                {suppressed_entities.length} active
+              </span>
+            </div>
+          </div>
+
+          <div className="flex items-center gap-2 p-2 rounded-lg bg-dark-900/60 border border-dark-700/50">
+            <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400 shrink-0" />
+            <div>
+              <span className="font-semibold text-slate-200 block text-[11px]">Incident Creation</span>
+              <span className="text-[10px] text-slate-400 block font-mono">
+                {active_incident ? "ACTIVE INCIDENT" : "MONITORING"}
+              </span>
+            </div>
+          </div>
+
+          <div className="flex items-center gap-2 p-2 rounded-lg bg-dark-900/60 border border-dark-700/50">
+            <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400 shrink-0" />
+            <div>
+              <span className="font-semibold text-slate-200 block text-[11px]">Automatic Recovery</span>
+              <span className="text-[10px] text-slate-400 block font-mono">
+                COOLDOWN READY
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+
       {/* Grid: Circuit Breaker Telemetry + Risk Spike Monitor */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-5">
         {/* Card 1: Adaptive Circuit Breaker */}

@@ -21,6 +21,23 @@ interface RiskActivityChartProps {
 }
 
 export const RiskActivityChart: React.FC<RiskActivityChartProps> = ({ data }) => {
+  // Dynamic Y-axis ceiling based on actual observed risk values:
+  // Normal traffic (0–5%): dynamic domain with headroom (e.g. 15%) so small variations are visually clear.
+  // Risk spikes (20–100%): automatically expands up to 100% as values increase.
+  const maxObserved = Math.max(
+    ...data.map((d) => Math.max(d.meanRisk || 0, d.highRiskRate || 0)),
+    0
+  );
+
+  let yAxisMax = 15;
+  if (maxObserved > 12 && maxObserved <= 30) {
+    yAxisMax = 35;
+  } else if (maxObserved > 30 && maxObserved <= 60) {
+    yAxisMax = 70;
+  } else if (maxObserved > 60) {
+    yAxisMax = 100;
+  }
+
   return (
     <div className="bg-dark-850 rounded-xl p-5 border border-dark-700/80 shadow-lg flex flex-col h-[360px]">
       <div className="flex items-center justify-between mb-4">
@@ -70,7 +87,7 @@ export const RiskActivityChart: React.FC<RiskActivityChartProps> = ({ data }) =>
             <YAxis
               stroke="#64748B"
               fontSize={11}
-              domain={[0, 100]}
+              domain={[0, yAxisMax]}
               tickFormatter={(val) => `${val}%`}
               tickLine={false}
               axisLine={{ stroke: "#1E293B" }}

@@ -101,64 +101,112 @@ export const ModelPerformance: React.FC<ModelPerformanceProps> = ({ metrics }) =
 
       {/* Primary Metrics Grid */}
       <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3.5">
-        <div className="bg-dark-850 rounded-xl p-4 border border-dark-700/80 shadow-md">
-          <span className="text-[10px] text-slate-400 font-bold uppercase tracking-wider block mb-1">
-            PR-AUC
-          </span>
-          <span className="text-2xl font-extrabold text-brand-cyan font-mono block">
-            {prAuc.toFixed(4)}
-          </span>
-          <span className="text-[11px] text-slate-400 block mt-0.5">Precision-Recall AUC</span>
+        <div className="bg-dark-850 rounded-xl p-4 border border-dark-700/80 shadow-md flex flex-col justify-between">
+          <div>
+            <span className="px-1.5 py-0.5 rounded text-[9px] font-bold bg-brand-purple/15 text-brand-purple border border-brand-purple/30 uppercase tracking-wider block w-max mb-2">
+              SEALED TEST
+            </span>
+            <span className="text-[10px] text-slate-400 font-bold uppercase tracking-wider block mb-1">
+              PR-AUC
+            </span>
+          </div>
+          <div>
+            <span className="text-2xl font-extrabold text-brand-cyan font-mono block">
+              {prAuc.toFixed(4)}
+            </span>
+            <span className="text-[11px] text-slate-400 block mt-0.5">Precision-Recall AUC</span>
+          </div>
         </div>
 
-        <div className="bg-dark-850 rounded-xl p-4 border border-dark-700/80 shadow-md">
-          <span className="text-[10px] text-slate-400 font-bold uppercase tracking-wider block mb-1">
-            ROC-AUC
-          </span>
-          <span className="text-2xl font-extrabold text-brand-purple font-mono block">
-            {rocAuc.toFixed(4)}
-          </span>
-          <span className="text-[11px] text-slate-400 block mt-0.5">Area Under ROC Curve</span>
+        <div className="bg-dark-850 rounded-xl p-4 border border-dark-700/80 shadow-md flex flex-col justify-between">
+          <div>
+            <span className="px-1.5 py-0.5 rounded text-[9px] font-bold bg-brand-purple/15 text-brand-purple border border-brand-purple/30 uppercase tracking-wider block w-max mb-2">
+              SEALED TEST
+            </span>
+            <span className="text-[10px] text-slate-400 font-bold uppercase tracking-wider block mb-1">
+              ROC-AUC
+            </span>
+          </div>
+          <div>
+            <span className="text-2xl font-extrabold text-brand-purple font-mono block">
+              {rocAuc.toFixed(4)}
+            </span>
+            <span className="text-[11px] text-slate-400 block mt-0.5">Area Under ROC Curve</span>
+          </div>
         </div>
 
-        <div className="bg-dark-850 rounded-xl p-4 border border-dark-700/80 shadow-md">
-          <span className="text-[10px] text-slate-400 font-bold uppercase tracking-wider block mb-1">
-            Hard-Block Precision
-          </span>
-          <span className="text-2xl font-extrabold text-emerald-400 font-mono block">
-            {precision.toFixed(2)}%
-          </span>
-          <span className="text-[11px] text-slate-400 block mt-0.5">Auto-block accuracy</span>
+        <div className="bg-dark-850 rounded-xl p-4 border border-dark-700/80 shadow-md flex flex-col justify-between">
+          <div>
+            <span className="px-1.5 py-0.5 rounded text-[9px] font-bold bg-brand-purple/15 text-brand-purple border border-brand-purple/30 uppercase tracking-wider block w-max mb-2">
+              SEALED TEST
+            </span>
+            <span className="text-[10px] text-slate-400 font-bold uppercase tracking-wider block mb-1">
+              Hard-Block Precision
+            </span>
+          </div>
+          <div>
+            <span className="text-2xl font-extrabold text-emerald-400 font-mono block">
+              {precision.toFixed(2)}%
+            </span>
+            <span className="text-[10px] text-slate-400 block mt-0.5" title="Precision measured on the untouched chronological sealed test set.">
+              Precision on untouched test set
+            </span>
+          </div>
         </div>
 
-        <div className="bg-dark-850 rounded-xl p-4 border border-dark-700/80 shadow-md">
-          <span className="text-[10px] text-slate-400 font-bold uppercase tracking-wider block mb-1">
-            Hard-Block Recall
-          </span>
-          <span className="text-2xl font-extrabold text-slate-200 font-mono block">
-            {recall.toFixed(2)}%
-          </span>
-          <span className="text-[11px] text-slate-400 block mt-0.5">Direct fraud caught</span>
+        <div className="bg-dark-850 rounded-xl p-4 border border-dark-700/80 shadow-md flex flex-col justify-between">
+          <div>
+            <span className="px-1.5 py-0.5 rounded text-[9px] font-bold bg-brand-purple/15 text-brand-purple border border-brand-purple/30 uppercase tracking-wider block w-max mb-2">
+              SEALED TEST
+            </span>
+            <span className="text-[10px] text-slate-400 font-bold uppercase tracking-wider block mb-1">
+              Hard-Block Recall
+            </span>
+          </div>
+          <div>
+            <span className="text-2xl font-extrabold text-slate-200 font-mono block">
+              {recall.toFixed(2)}%
+            </span>
+            <span className="text-[11px] text-slate-400 block mt-0.5">Direct fraud caught</span>
+          </div>
         </div>
 
-        <div className="bg-dark-850 rounded-xl p-4 border border-dark-700/80 shadow-md">
-          <span className="text-[10px] text-slate-400 font-bold uppercase tracking-wider block mb-1">
-            Challenge Rate
-          </span>
-          <span className="text-2xl font-extrabold text-amber-400 font-mono block">
-            {challengeRate.toFixed(2)}%
-          </span>
-          <span className="text-[11px] text-slate-400 block mt-0.5">Step-up 2FA volume</span>
+        <div className="bg-dark-850 rounded-xl p-4 border border-dark-700/80 shadow-md flex flex-col justify-between">
+          <div>
+            <span className="px-1.5 py-0.5 rounded text-[9px] font-bold bg-brand-purple/15 text-brand-purple border border-brand-purple/30 uppercase tracking-wider block w-max mb-2">
+              SEALED TEST
+            </span>
+            <span className="text-[10px] text-slate-400 font-bold uppercase tracking-wider block mb-1">
+              Challenge Rate
+            </span>
+          </div>
+          <div>
+            <span className="text-2xl font-extrabold text-amber-400 font-mono block">
+              {challengeRate.toFixed(2)}%
+            </span>
+            <span className="text-[10px] text-slate-400 block mt-0.5 font-medium">
+              Validation target: &lt;6%
+            </span>
+          </div>
         </div>
 
-        <div className="bg-dark-850 rounded-xl p-4 border border-dark-700/80 shadow-md">
-          <span className="text-[10px] text-slate-400 font-bold uppercase tracking-wider block mb-1">
-            P95 Inference SLA
-          </span>
-          <span className="text-2xl font-extrabold text-brand-blue font-mono block">
-            {p95Latency.toFixed(2)}ms
-          </span>
-          <span className="text-[11px] text-slate-400 block mt-0.5">With SHAP calculation</span>
+        <div className="bg-dark-850 rounded-xl p-4 border border-dark-700/80 shadow-md flex flex-col justify-between">
+          <div>
+            <span className="px-1.5 py-0.5 rounded text-[9px] font-bold bg-brand-purple/15 text-brand-purple border border-brand-purple/30 uppercase tracking-wider block w-max mb-2">
+              SEALED TEST
+            </span>
+            <span className="text-[10px] text-slate-400 font-bold uppercase tracking-wider block mb-1">
+              Net Merchant Savings
+            </span>
+          </div>
+          <div>
+            <span className="text-2xl font-extrabold text-emerald-400 font-mono block">
+              ₹61.49L
+            </span>
+            <span className="text-[10px] text-slate-400 block mt-0.5">
+              Sealed-test evaluation
+            </span>
+          </div>
         </div>
       </div>
 
@@ -377,7 +425,7 @@ export const ModelPerformance: React.FC<ModelPerformanceProps> = ({ metrics }) =
               </div>
               <div className="flex justify-between py-1 border-b border-dark-700/40">
                 <span className="text-slate-400">Merchant Challenge Rate</span>
-                <span className="font-mono font-bold text-slate-200">6.51% (SLA target &le; 6%)</span>
+                <span className="font-mono font-bold text-slate-200">6.51% (Validation target &lt; 6%; sealed-test result)</span>
               </div>
               <div className="flex justify-between py-1">
                 <span className="text-slate-400">Frictionless Approval Rate</span>

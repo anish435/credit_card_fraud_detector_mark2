@@ -1,6 +1,7 @@
 import React, { useState, useMemo } from "react";
 import { Search, Filter, ArrowUpRight, ShieldCheck, ShieldAlert, AlertTriangle } from "lucide-react";
 import { TransactionRecord, DecisionType } from "../../types/api";
+import { formatDisplayTxnId } from "../../utils/formatters";
 
 interface TransactionTableProps {
   transactions: TransactionRecord[];
@@ -20,9 +21,11 @@ export const TransactionTable: React.FC<TransactionTableProps> = ({
     return transactions.filter((tx) => {
       const matchesFilter =
         filterDecision === "ALL" || tx.decision === filterDecision;
+      const displayId = formatDisplayTxnId(tx.id).toLowerCase();
       const matchesSearch =
         searchQuery === "" ||
         tx.id.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        displayId.includes(searchQuery.toLowerCase()) ||
         (tx.email && tx.email.toLowerCase().includes(searchQuery.toLowerCase()));
       return matchesFilter && matchesSearch;
     });
@@ -138,8 +141,8 @@ export const TransactionTable: React.FC<TransactionTableProps> = ({
                     <td className="py-3 px-4 font-mono text-slate-400 text-[11px]">
                       {timeFormatted}
                     </td>
-                    <td className="py-3 px-4 font-mono font-medium text-slate-200 group-hover:text-brand-cyan transition-colors">
-                      {tx.id}
+                    <td className="py-3 px-4 font-mono font-medium text-slate-200 group-hover:text-brand-cyan transition-colors" title={`Lookup ID: ${tx.id}`}>
+                      {formatDisplayTxnId(tx.id)}
                     </td>
                     <td className="py-3 px-4 font-semibold text-white">
                       {tx.currency === "INR" ? "₹" : "$"}

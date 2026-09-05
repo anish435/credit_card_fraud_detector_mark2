@@ -26,7 +26,7 @@ export const Header: React.FC<HeaderProps> = ({
       return (
         <div className="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-risk-block/15 border border-risk-block/40 text-risk-block text-xs font-semibold shadow-glow-red animate-pulse">
           <ShieldAlert className="w-4 h-4 text-risk-block" />
-          <span>🔴 DEFENSE ACTIVE — SPIKE DETECTED</span>
+          <span>🔴 DEFENSE ACTIVE — RISK SPIKE DETECTED</span>
         </div>
       );
     }

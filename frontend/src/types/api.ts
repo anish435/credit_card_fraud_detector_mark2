@@ -181,6 +181,7 @@ export interface RazorpayAuditLog {
   timestamp: string;
   customer_identifier: string;
   amount: number;
+  amount_inr?: number;
   currency: string;
   fraud_probability: number;
   risk_tier: DecisionType;

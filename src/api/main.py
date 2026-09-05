@@ -22,6 +22,7 @@ from datetime import datetime, timezone
 from typing import Dict, List, Optional
 
 import json
+import secrets
 import joblib
 import numpy as np
 import pandas as pd
@@ -445,7 +446,7 @@ def score_transaction(payload: TransactionInput, include_reasons: bool = Query(T
         defense_note=defense_res.get("defense_note"),
     )
     record_recent_transaction({
-        "id": f"tx_{int(time.time()*1000)}_{int(time.perf_counter()*1000)%1000}",
+        "id": f"txn_{secrets.token_hex(3).upper()}",
         "timestamp": datetime.now(timezone.utc).isoformat(),
         "amount": round(float(input_dict.get("TransactionAmt", 0.0)), 2),
         "currency": "USD",
@@ -486,7 +487,7 @@ def score_transaction_fast_post(payload: TransactionInput):
         defense_note=defense_res.get("defense_note"),
     )
     record_recent_transaction({
-        "id": f"tx_fast_{int(time.time()*1000)}_{int(time.perf_counter()*1000)%1000}",
+        "id": f"txn_{secrets.token_hex(3).upper()}",
         "timestamp": datetime.now(timezone.utc).isoformat(),
         "amount": round(float(input_dict.get("TransactionAmt", 0.0)), 2),
         "currency": "USD",
@@ -541,7 +542,7 @@ def score_transaction_fast_get(
         defense_note=defense_res.get("defense_note"),
     )
     record_recent_transaction({
-        "id": f"tx_probe_{int(time.time()*1000)}_{int(time.perf_counter()*1000)%1000}",
+        "id": f"txn_{secrets.token_hex(3).upper()}",
         "timestamp": datetime.now(timezone.utc).isoformat(),
         "amount": round(float(TransactionAmt), 2),
         "currency": "USD",
@@ -916,7 +917,7 @@ def simulate_normal_payment():
     latency_with_shap.append(latency_ms)
 
     tx_rec = {
-        "id": f"pay_norm_{int(time.time()*1000)}",
+        "id": f"txn_{secrets.token_hex(3).upper()}",
         "timestamp": datetime.now(timezone.utc).isoformat(),
         "amount": payload_dict["TransactionAmt"],
         "currency": "USD",
@@ -975,7 +976,7 @@ def simulate_fraud_spike():
             reasons.insert(0, f"🛡️ {defense_res['defense_note']}")
 
         tx_rec = {
-            "id": f"pay_spike_{int(time.time()*1000)}_{i}",
+            "id": f"txn_{secrets.token_hex(3).upper()}",
             "timestamp": datetime.now(timezone.utc).isoformat(),
             "amount": burst_payload["TransactionAmt"],
             "currency": "USD",

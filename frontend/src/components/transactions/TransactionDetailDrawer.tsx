@@ -1,6 +1,7 @@
 import React from "react";
-import { X, ShieldCheck, ShieldAlert, AlertTriangle, Cpu, Clock, CreditCard, Mail, ArrowUpRight } from "lucide-react";
+import { X, ShieldCheck, ShieldAlert, AlertTriangle, Cpu, Clock, CreditCard, Mail, Info } from "lucide-react";
 import { TransactionRecord } from "../../types/api";
+import { formatDisplayTxnId } from "../../utils/formatters";
 
 interface TransactionDetailDrawerProps {
   transaction: TransactionRecord | null;
@@ -40,6 +41,7 @@ export const TransactionDetailDrawer: React.FC<TransactionDetailDrawerProps> = (
   const probPercent = (transaction.fraud_probability * 100).toFixed(1);
   const isHighRisk = transaction.fraud_probability >= 0.7495;
   const isMediumRisk = transaction.fraud_probability >= 0.0804 && !isHighRisk;
+  const displayId = formatDisplayTxnId(transaction.id);
 
   return (
     <div className="fixed inset-0 z-50 overflow-hidden bg-black/60 backdrop-blur-sm flex justify-end animate-in fade-in duration-200">
@@ -48,16 +50,19 @@ export const TransactionDetailDrawer: React.FC<TransactionDetailDrawerProps> = (
         <div className="p-5 border-b border-dark-700/80 flex items-center justify-between bg-dark-950/70 sticky top-0 z-10">
           <div>
             <div className="flex items-center gap-2">
-              <span className="text-xs font-bold uppercase text-brand-cyan tracking-wider">
-                Risk Analysis
+              <span className="px-2 py-0.5 rounded text-[10px] font-bold bg-brand-cyan/15 text-brand-cyan border border-brand-cyan/30 uppercase tracking-wider">
+                LIVE TELEMETRY
               </span>
-              <span className="text-xs text-slate-500 font-mono">#{transaction.id}</span>
+              <span className="text-xs text-slate-400 font-mono" title={`Underlying Lookup ID: ${transaction.id}`}>
+                {displayId}
+              </span>
             </div>
-            <h3 className="text-base font-bold text-white mt-0.5">Transaction Inspection</h3>
+            <h3 className="text-base font-bold text-white mt-1">TRANSACTION RISK ANALYSIS</h3>
           </div>
           <button
             onClick={onClose}
             className="p-1.5 rounded-lg bg-dark-800 hover:bg-dark-750 text-slate-400 hover:text-white border border-dark-700 transition-all"
+            title="Close Drawer"
           >
             <X className="w-5 h-5" />
           </button>
@@ -79,10 +84,10 @@ export const TransactionDetailDrawer: React.FC<TransactionDetailDrawerProps> = (
               {getDecisionBadge(transaction.decision)}
             </div>
 
-            {/* Fraud Probability Bar */}
+            {/* Calibrated Risk Probability Bar */}
             <div className="space-y-1.5 pt-2 border-t border-dark-700/50">
               <div className="flex justify-between items-center text-xs">
-                <span className="text-slate-400 font-medium">Calibrated Fraud Risk</span>
+                <span className="text-slate-300 font-medium">Calibrated Risk Probability</span>
                 <span
                   className={`font-mono font-bold ${
                     isHighRisk
@@ -107,17 +112,68 @@ export const TransactionDetailDrawer: React.FC<TransactionDetailDrawerProps> = (
                   style={{ width: `${Math.max(Number(probPercent), 2)}%` }}
                 />
               </div>
+              <p className="text-[10px] text-slate-400 flex items-center gap-1 pt-0.5">
+                <Info className="w-3 h-3 text-slate-500 shrink-0" />
+                <span>Calibrated statistical probability of risk; does not represent ground-truth confirmed fraud.</span>
+              </p>
             </div>
           </div>
 
-          {/* AI Signals / SHAP Reasons */}
+          {/* Primary Transaction Attributes Table */}
+          <div className="space-y-3">
+            <h4 className="text-xs font-bold text-slate-400 uppercase tracking-wider">
+              Core Parameters
+            </h4>
+            <div className="grid grid-cols-2 gap-3 text-xs">
+              <div className="bg-dark-850 p-3 rounded-lg border border-dark-700/60">
+                <span className="text-[10px] text-slate-400 block font-medium">Amount</span>
+                <span className="text-sm font-semibold text-white mt-0.5 block">
+                  {transaction.currency === "INR" ? "₹" : "$"}{transaction.amount.toFixed(2)}
+                </span>
+              </div>
+              <div className="bg-dark-850 p-3 rounded-lg border border-dark-700/60">
+                <span className="text-[10px] text-slate-400 block font-medium">Transaction ID</span>
+                <span className="text-sm font-mono font-semibold text-brand-cyan mt-0.5 block" title={`Underlying: ${transaction.id}`}>
+                  {displayId}
+                </span>
+              </div>
+              <div className="bg-dark-850 p-3 rounded-lg border border-dark-700/60">
+                <span className="text-[10px] text-slate-400 block font-medium">Risk Probability</span>
+                <span className={`text-sm font-mono font-bold mt-0.5 block ${
+                  isHighRisk ? "text-rose-400" : isMediumRisk ? "text-amber-400" : "text-emerald-400"
+                }`}>
+                  {probPercent}%
+                </span>
+              </div>
+              <div className="bg-dark-850 p-3 rounded-lg border border-dark-700/60">
+                <span className="text-[10px] text-slate-400 block font-medium">Decision</span>
+                <span className="text-sm font-semibold text-slate-200 mt-0.5 block">
+                  {transaction.decision}
+                </span>
+              </div>
+              <div className="bg-dark-850 p-3 rounded-lg border border-dark-700/60">
+                <span className="text-[10px] text-slate-400 block font-medium">Inference Latency</span>
+                <span className="text-sm font-mono font-semibold text-slate-200 mt-0.5 block">
+                  {transaction.latency_ms.toFixed(1)} ms
+                </span>
+              </div>
+              <div className="bg-dark-850 p-3 rounded-lg border border-dark-700/60">
+                <span className="text-[10px] text-slate-400 block font-medium">Model</span>
+                <span className="text-sm font-semibold text-slate-200 mt-0.5 block">
+                  XGBoost + LightGBM
+                </span>
+              </div>
+            </div>
+          </div>
+
+          {/* AI SIGNALS (Real SHAP attributions) */}
           <div className="space-y-3">
             <div className="flex items-center gap-2">
               <div className="w-6 h-6 rounded-md bg-brand-purple/20 text-brand-purple flex items-center justify-center">
                 <Cpu className="w-3.5 h-3.5" />
               </div>
               <h4 className="text-xs font-bold text-white uppercase tracking-wider">
-                AI Signals & Operational Attributions
+                AI SIGNALS
               </h4>
             </div>
 
@@ -140,43 +196,10 @@ export const TransactionDetailDrawer: React.FC<TransactionDetailDrawerProps> = (
             )}
           </div>
 
-          {/* Operational Routing & Defense Metadata */}
+          {/* Identity & Payment Metadata */}
           <div className="space-y-3">
             <h4 className="text-xs font-bold text-slate-400 uppercase tracking-wider">
-              Inference & Defense Telemetry
-            </h4>
-            <div className="grid grid-cols-2 gap-3">
-              <div className="bg-dark-850 p-3 rounded-lg border border-dark-700/60">
-                <span className="text-[11px] text-slate-400 block">Model Engine</span>
-                <span className="text-xs font-semibold text-slate-200 mt-0.5 block">
-                  XGBoost + LightGBM
-                </span>
-              </div>
-              <div className="bg-dark-850 p-3 rounded-lg border border-dark-700/60">
-                <span className="text-[11px] text-slate-400 block">Inference Latency</span>
-                <span className="text-xs font-mono font-semibold text-brand-cyan mt-0.5 block">
-                  {transaction.latency_ms.toFixed(1)} ms
-                </span>
-              </div>
-              <div className="bg-dark-850 p-3 rounded-lg border border-dark-700/60">
-                <span className="text-[11px] text-slate-400 block">Circuit Breaker</span>
-                <span className="text-xs font-semibold text-slate-200 mt-0.5 block">
-                  {transaction.circuit_breaker_state || "NORMAL"}
-                </span>
-              </div>
-              <div className="bg-dark-850 p-3 rounded-lg border border-dark-700/60">
-                <span className="text-[11px] text-slate-400 block">Defense Action</span>
-                <span className="text-xs font-semibold text-slate-200 mt-0.5 block truncate" title={transaction.defense_action}>
-                  {transaction.defense_action || "STANDARD_ROUTING"}
-                </span>
-              </div>
-            </div>
-          </div>
-
-          {/* Entity & Transaction Details */}
-          <div className="space-y-3">
-            <h4 className="text-xs font-bold text-slate-400 uppercase tracking-wider">
-              Identity & Payment Card
+              Identity & Payment Telemetry
             </h4>
             <div className="space-y-2 bg-dark-850 p-4 rounded-lg border border-dark-700/60 text-xs">
               <div className="flex justify-between items-center py-1 border-b border-dark-700/40">
@@ -195,12 +218,18 @@ export const TransactionDetailDrawer: React.FC<TransactionDetailDrawerProps> = (
                   {transaction.email || "anonymous"}
                 </span>
               </div>
-              <div className="flex justify-between items-center py-1">
+              <div className="flex justify-between items-center py-1 border-b border-dark-700/40">
                 <span className="text-slate-400 flex items-center gap-1.5">
                   <Clock className="w-3.5 h-3.5 text-slate-500" /> Timestamp
                 </span>
                 <span className="text-slate-300 font-mono text-[11px]">
                   {new Date(transaction.timestamp).toLocaleString()}
+                </span>
+              </div>
+              <div className="flex justify-between items-center py-1">
+                <span className="text-slate-400">Internal Audit Ref</span>
+                <span className="text-slate-400 font-mono text-[10px] truncate max-w-[200px]" title={transaction.id}>
+                  {transaction.id}
                 </span>
               </div>
             </div>

@@ -75,13 +75,13 @@ export const APIDocs: React.FC = () => {
       method: "GET",
       path: "/defense/incidents",
       tag: "DEFENSE",
-      desc: "Lists all active and resolved fraud spike incidents.",
+      desc: "Lists all active and resolved risk spike incidents.",
     },
     {
       method: "POST",
       path: "/defense/incidents/{incident_id}/resolve",
       tag: "DEFENSE",
-      desc: "Manually resolves an active fraud incident with an analyst note.",
+      desc: "Manually resolves an active risk spike incident with an analyst note.",
     },
     {
       method: "POST",

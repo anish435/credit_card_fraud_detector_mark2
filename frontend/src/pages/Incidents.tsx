@@ -82,7 +82,7 @@ export const Incidents: React.FC<IncidentsProps> = ({ onNotification }) => {
             </span>
           </h2>
           <p className="text-xs text-slate-400 mt-1 max-w-2xl">
-            Audit log of systemic fraud spikes, gateway surges, and automated circuit breaker mitigation lifecycles.
+            Audit log of systemic risk spikes, gateway surges, and automated circuit breaker mitigation lifecycles.
           </p>
         </div>
 
@@ -182,8 +182,8 @@ export const Incidents: React.FC<IncidentsProps> = ({ onNotification }) => {
                     {inc.affected_transactions_count}
                   </span>
                 </div>
-                <div className="bg-dark-800/80 p-2.5 rounded-lg border border-dark-700/50">
-                  <span className="text-[10px] text-slate-400 block font-medium">Trigger Fraud Rate</span>
+                <div className="bg-dark-850 p-2.5 rounded-lg border border-dark-700/50">
+                  <span className="text-[10px] text-slate-400 block font-medium">Trigger High-Risk Rate</span>
                   <span className="text-sm font-mono font-bold text-rose-400 mt-0.5 block">
                     {inc.trigger_metrics?.high_risk_rate_pct ?? "N/A"}%
                   </span>
