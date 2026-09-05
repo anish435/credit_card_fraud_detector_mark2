@@ -90,7 +90,13 @@ export function App() {
     refreshTransactions();
   };
 
-  const isBackendOnline = !healthError && !!healthData;
+  // Resilient online check: if health check succeeds OR any operational telemetry arrives, engine is online!
+  const isBackendOnline = Boolean(
+    (!healthError && healthData) ||
+    defenseData ||
+    txResponse?.transactions ||
+    statsData
+  );
   const transactionsList = txResponse?.transactions || [];
   const circuitBreakerState = defenseData?.circuit_breaker?.state || "NORMAL";
   const isSpikeActive = defenseData?.sliding_window_telemetry?.is_spike || false;

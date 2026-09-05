@@ -18,13 +18,21 @@ export const API_BASE_URL = import.meta.env.VITE_API_URL
 
 async function fetchJSON<T>(endpoint: string, options?: RequestInit): Promise<T> {
   const url = `${API_BASE_URL}${endpoint}`;
+  const headers: Record<string, string> = {
+    Accept: "application/json",
+  };
+  // Do NOT send Content-Type on GET requests to prevent unnecessary CORS OPTIONS preflights that privacy shields block
+  if (options?.body) {
+    headers["Content-Type"] = "application/json";
+  }
+
   try {
     const res = await fetch(url, {
-      headers: {
-        "Content-Type": "application/json",
-        Accept: "application/json",
-      },
       ...options,
+      headers: {
+        ...headers,
+        ...options?.headers,
+      },
     });
     if (!res.ok) {
       let errorMsg = `HTTP ${res.status} ${res.statusText}`;
@@ -44,17 +52,29 @@ async function fetchJSON<T>(endpoint: string, options?: RequestInit): Promise<T>
 }
 
 export const api = {
-  // Health & Stats
+  // Health & Stats (Shield-safe with legacy fallback)
   async getHealth(): Promise<HealthResponse> {
-    return fetchJSON<HealthResponse>("/health");
+    try {
+      return await fetchJSON<HealthResponse>("/system/health");
+    } catch {
+      return await fetchJSON<HealthResponse>("/health");
+    }
   },
 
   async getStats(): Promise<StatsResponse> {
-    return fetchJSON<StatsResponse>("/stats");
+    try {
+      return await fetchJSON<StatsResponse>("/telemetry/latency");
+    } catch {
+      return await fetchJSON<StatsResponse>("/stats");
+    }
   },
 
   async getMetrics(): Promise<ModelMetricsSummary> {
-    return fetchJSON<ModelMetricsSummary>("/metrics");
+    try {
+      return await fetchJSON<ModelMetricsSummary>("/model/evaluation");
+    } catch {
+      return await fetchJSON<ModelMetricsSummary>("/metrics");
+    }
   },
 
   // Defense Center

@@ -396,6 +396,8 @@ def root_redirect():
 
 
 @app.get("/health", summary="Health Check")
+@app.get("/system/health", summary="Health Check (Shield-Safe)")
+@app.get("/status", summary="Health Check (Status Alias)")
 def health_check():
     """Service uptime and model readiness check."""
     return {
@@ -573,6 +575,8 @@ def _calc_stats(deq: deque) -> LatencyStats:
 
 
 @app.get("/stats", response_model=StatsResponse, summary="Comparative Latency Telemetry")
+@app.get("/telemetry/latency", response_model=StatsResponse, summary="Comparative Latency (Shield-Safe)")
+@app.get("/system/latency", response_model=StatsResponse, summary="Comparative Latency (Alias)")
 def get_stats():
     """
     Return comparative latency metrics (p50, p95, p99) for fast-mode vs explainable-mode.
@@ -777,6 +781,8 @@ async def razorpay_webhook(
 
 
 @app.get("/metrics", summary="Comprehensive Model Performance Metrics")
+@app.get("/model/evaluation", summary="Model Performance Evaluation (Shield-Safe)")
+@app.get("/system/benchmark", summary="Model Performance Benchmark (Alias)")
 def get_metrics():
     """Return all model performance metrics computed during training pipeline."""
     metrics_path = os.path.join(REPO_ROOT, "models", "metrics_summary.json")
